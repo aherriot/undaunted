@@ -1,0 +1,151 @@
+$american-primary: green;
+$german-primary: grey;
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.title {
+  margin-top: 20px;
+}
+
+.cards {
+  display: flex;
+}
+
+.card {
+  position: relative;
+  text-align: center;
+  border: 3px solid #aaa;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+
+  margin: 4px;
+  width: 150px;
+  height: 200px;
+  cursor: pointer;
+  transition: transform 200ms, box-shadow 200ms;
+
+  &:hover {
+    border-color: black;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.15);
+    transform: translate(-2px, -2px);
+  }
+
+  &.selected,
+  &.selected:hover {
+    border-color: rgb(122, 122, 201);
+    transform: translate(-2px, -2px);
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.15);
+  }
+
+  .img {
+    height: 80px;
+  }
+
+  .cardId {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #aaa;
+  }
+
+  .initiative {
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    font-weight: 800;
+    font-size: 24px;
+    color: white;
+    width: 30px;
+    height: 30px;
+  }
+
+  .squad {
+    display: inline-block;
+    font-weight: 500;
+    font-size: 24px;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid;
+    vertical-align: middle;
+  }
+
+  .name {
+    font-size: 13px;
+    color: #333;
+    margin-bottom: 6px;
+  }
+
+  .type {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 4px;
+    margin-bottom: 6px;
+    height: 18px;
+  }
+
+  .type-label {
+    flex-grow: 1;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: stretch;
+    background-color: #d9d9d9;
+    grid-gap: 2px;
+  }
+
+  .action {
+    font-weight: 600;
+    padding: 4px;
+    font-size: 13px;
+    background-color: white;
+  }
+
+  &.american {
+    .initiative {
+      background: green;
+    }
+
+    .squad {
+      color: $american-primary;
+      border-color: $american-primary;
+    }
+
+    .type {
+      background-color: green;
+    }
+  }
+
+  &.german {
+    .initiative {
+      background: $german-primary;
+    }
+
+    .squad {
+      color: $german-primary;
+      border-color: $german-primary;
+    }
+    .type {
+      background-color: $german-primary;
+    }
+  }
+}
