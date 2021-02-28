@@ -8,9 +8,9 @@ import {
   playerIdToTeam,
   checkEndOfStage,
 } from "./utils";
-import { GameState, Team } from "./types";
+import { GameState, Team, CardId } from "./types";
 
-export const selectInitiative = (g: GameState, ctx: Ctx, cardId: string) => {
+export const selectInitiative = (g: GameState, ctx: Ctx, cardId: CardId) => {
   const card = cardMap[cardId];
   const cardInfo = cardTypes[card.type];
 
@@ -40,7 +40,7 @@ export const selectInitiative = (g: GameState, ctx: Ctx, cardId: string) => {
   }
 };
 
-export const bolster = (g: GameState, ctx: Ctx, cardIds: Array<string>) => {
+export const bolster = (g: GameState, ctx: Ctx, cardIds: Array<CardId>) => {
   const team = playerIdToTeam(ctx.playerID);
 
   cardIds.forEach((cardId) => {
@@ -54,95 +54,95 @@ export const bolster = (g: GameState, ctx: Ctx, cardIds: Array<string>) => {
   checkEndOfStage(g, ctx);
 };
 
-export const discard = (g: GameState, ctx: Ctx, cardId: string) => {
+export const discard = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
   checkEndOfStage(g, ctx);
 };
 
-export const scout = (g: GameState, ctx: Ctx, cardId: string) => {
+export const scout = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
   console.log("scout");
   checkEndOfStage(g, ctx);
 };
 
-export const move = (g: GameState, ctx: Ctx, cardId: string) => {
+export const move = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
 
   console.log("move");
   checkEndOfStage(g, ctx);
 };
 
-export const conceal = (g: GameState, ctx: Ctx, cardId: string) => {
+export const conceal = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
 
   console.log("conceal");
   checkEndOfStage(g, ctx);
 };
 
-export const attack = (g: GameState, ctx: Ctx, cardId: string) => {
+export const attack = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
 
   console.log("attack");
   checkEndOfStage(g, ctx);
 };
 
-export const suppress = (g: GameState, ctx: Ctx, cardId: string) => {
+export const suppress = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
 
   console.log("suppress");
   checkEndOfStage(g, ctx);
 };
 
-export const recon = (g: GameState, ctx: Ctx, cardId: string) => {
+export const recon = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
 
   console.log("recon");
   checkEndOfStage(g, ctx);
 };
 
-export const control = (g: GameState, ctx: Ctx, cardId: string) => {
+export const control = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
 
   console.log("control");
   checkEndOfStage(g, ctx);
 };
 
-export const command = (g: GameState, ctx: Ctx, cardId: string) => {
+export const command = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
 
   console.log("command");
   checkEndOfStage(g, ctx);
 };
 
-export const inspire = (g: GameState, ctx: Ctx, cardId: string) => {
+export const inspire = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
 
   console.log("inspire");
   checkEndOfStage(g, ctx);
 };
 
-export const blast = (g: GameState, ctx: Ctx, cardId: string) => {
+export const blast = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
 
   console.log("blast");
   checkEndOfStage(g, ctx);
 };
 
-export const target = (g: GameState, ctx: Ctx, cardId: string) => {
+export const target = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
 
   console.log("target");
   checkEndOfStage(g, ctx);
 };
 
-export const stalk = (g: GameState, ctx: Ctx, cardId: string) => {
+export const stalk = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
 
   console.log("stalk");
   checkEndOfStage(g, ctx);
 };
 
-export const guide = (g: GameState, ctx: Ctx, cardId: string) => {
+export const guide = (g: GameState, ctx: Ctx, cardId: CardId) => {
   playCard(g, ctx, cardId);
 
   console.log("guide");

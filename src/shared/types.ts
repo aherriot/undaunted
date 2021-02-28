@@ -1,26 +1,6 @@
-// import cardMap from "./cardMap";
+import cardMap from "./cardMap";
 
-// type CardId =
-//   | "aps"
-//   | "gps"
-//   | "apg"
-//   | "gpg"
-//   | "asla"
-//   | "aslb"
-//   | "aslc"
-//   | "gsla"
-//   | "gslb"
-//   | "gslc"
-//   | "gra1"
-//   | "gra2"
-//   | "gra3"
-//   | "gra4"
-//   | "gra5"
-//   | "ara1"
-//   | "ara2"
-//   | "ara3"
-//   | "ara4"
-//   | "ara5";
+export type CardId = keyof typeof cardMap;
 
 export type Stage = "initiative" | "order" | null;
 
@@ -47,7 +27,7 @@ export type Squad = "a" | "b" | "c";
 export type Unit = "1" | "2" | "3" | "4" | "5";
 
 export type Card = {
-  id: string;
+  id: CardId;
   team: Team;
   type: CardType;
   squad?: Squad;
@@ -148,12 +128,12 @@ export type Marker = {
 
 export type PlayerState = {
   selectedInitiative: number | null;
-  supply: Array<string>;
-  deck: Array<string>;
-  hand: Array<string>;
-  played: Array<string>;
-  discard: Array<string>;
-  dead: Array<string>;
+  supply: Array<CardId>;
+  deck: Array<CardId>;
+  hand: Array<CardId>;
+  played: Array<CardId>;
+  discard: Array<CardId>;
+  dead: Array<CardId>;
 };
 
 export type GameState = {

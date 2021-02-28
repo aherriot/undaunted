@@ -1,6 +1,6 @@
 import { useState } from "react";
 import cardMap from "shared/cardMap";
-
+import { CardId } from "shared/types";
 import Card from "./Card";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   cards: Array<string>;
   defaultShow?: boolean;
   selectedCard: string | null;
-  onSelect: (cardId: string) => void;
+  onSelect: (cardId: CardId) => void;
 }
 
 const Cards = ({

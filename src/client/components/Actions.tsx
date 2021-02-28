@@ -2,11 +2,11 @@ import classnames from "classnames";
 import actionMap from "shared/actionMap";
 import cardMap from "shared/cardMap";
 import cardTypes from "shared/cardTypes";
-import { Stage } from "shared/types";
+import { Stage, CardId } from "shared/types";
 
 interface Props {
-  selectedCard: string | null;
-  setSelectedCard: (selectedCard: string | null) => void;
+  selectedCard: CardId | null;
+  setSelectedCard: (selectedCard: CardId | null) => void;
   stage: Stage;
   moves: Record<string, any>;
 }

@@ -1,5 +1,5 @@
 import { Ctx } from "boardgame.io";
-import { GameState, Team } from "./types";
+import { GameState, Team, CardId } from "./types";
 
 export const playerIdToTeam = (playerId: string | undefined): Team => {
   return playerId === "0" ? Team.German : Team.American;
@@ -31,7 +31,7 @@ export const drawCard = (g: GameState, ctx: Ctx, team: Team) => {
   g[team].hand.push(cardId);
 };
 
-export const playCard = (g: GameState, ctx: Ctx, cardId: string) => {
+export const playCard = (g: GameState, ctx: Ctx, cardId: CardId) => {
   const team = playerIdToTeam(ctx.playerID);
 
   const index = g[team].hand.findIndex((card) => card === cardId);
@@ -43,7 +43,7 @@ export const playCard = (g: GameState, ctx: Ctx, cardId: string) => {
   }
 };
 
-export const discardCard = (g: GameState, ctx: Ctx, cardId: string) => {
+export const discardCard = (g: GameState, ctx: Ctx, cardId: CardId) => {
   const team = playerIdToTeam(ctx.playerID);
 
   const index = g[team].hand.findIndex((card) => card === cardId);

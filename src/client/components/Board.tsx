@@ -3,7 +3,7 @@ import { BoardProps } from "boardgame.io/react";
 // import cardMap from "shared/cardMap";
 // import cardTypes from "shared/cardTypes";
 import { playerIdToTeam, teamToString } from "shared/utils";
-import { Stage, GameState, Team } from "shared/types";
+import { Stage, GameState, Team, CardId } from "shared/types";
 
 import Cards from "./Cards";
 import Marker from "./Marker";
@@ -19,7 +19,7 @@ const Board = ({ G, ctx, moves, playerID }: BoardProps<GameState>) => {
   const team: Team = playerIdToTeam(playerID);
   let stage: Stage = (ctx.activePlayers?.[playerID] as Stage) ?? null;
 
-  const onSelect = (cardId: string) => {
+  const onSelect = (cardId: CardId) => {
     setSelectedCard(selectedCard === cardId ? null : cardId);
   };
 
