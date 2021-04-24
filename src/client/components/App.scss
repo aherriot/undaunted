@@ -16,6 +16,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.board {
+  margin-bottom: 200px;
+}
+
 .title {
   margin-top: 20px;
 }
@@ -147,5 +151,85 @@ body {
     .type {
       background-color: $german-primary;
     }
+  }
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 200px);
+  grid-template-rows: auto;
+}
+
+.tile {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 2px solid green;
+
+  &.selected {
+    border-color: blue;
+  }
+
+  .flag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 20px;
+    font-weight: 500;
+    width: 30px;
+    text-align: center;
+    padding: 4px 0;
+    background-color: rgb(216, 209, 187);
+
+    &.american {
+      color: white;
+      background-color: $american-primary;
+    }
+    &.german {
+      color: white;
+      background-color: $german-primary;
+    }
+  }
+
+  & > .defense {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+}
+
+.marker {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 3px solid;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+
+  &.american {
+    border-color: $american-primary;
+  }
+
+  &.german {
+    border-color: $german-primary;
+  }
+
+  &.selected {
+    border-color: blue;
+  }
+
+  .type {
+  }
+
+  .squad {
+    text-transform: uppercase;
+    font-size: 20px;
+  }
+
+  .defense {
   }
 }

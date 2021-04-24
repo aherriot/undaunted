@@ -1,16 +1,32 @@
 import { Ctx } from "boardgame.io";
-import { GameState, Team, CardId } from "./types";
+import { GameState, Team, CardId, CardType, Card, MarkerId } from "./types";
 
-export const playerIdToTeam = (playerId: string | undefined): Team => {
-  return playerId === "0" ? Team.German : Team.American;
+export const playerIdToTeam = (playerId: string | null | undefined): Team => {
+  switch (playerId) {
+    case "0":
+      return Team.German;
+    case "1":
+      return Team.American;
+  }
+  throw new Error("playerIdToTeam: playerId undefined");
 };
 
-export const teamToString = (team: Team): string => {
-  return team === Team.German ? "german" : "american";
+export const teamToString = (team: Team | null): string => {
+  if (team === Team.German) {
+    return "german";
+  } else if (team === Team.American) {
+    return "american";
+  } else {
+    return "";
+  }
 };
 
 export const getOtherTeam = (team: Team): Team => {
   return team === Team.German ? Team.American : Team.German;
+};
+
+export const cardToMarkerId = (card: Card): MarkerId => {
+  return (teamToString(card.team)[0] + card.type[0] + card.squad) as MarkerId;
 };
 
 export const getOtherPlayerId = (playerId: string): string => {
@@ -52,6 +68,64 @@ export const discardCard = (g: GameState, ctx: Ctx, cardId: CardId) => {
     g[team].discard.push(cardId);
   } else {
     console.error(`Could not find card "${cardId}" in hand`);
+  }
+};
+
+export const supplyCard = (
+  g: GameState,
+  ctx: Ctx,
+  team: Team,
+  cardId: CardId
+) => {
+  const index = g[team].supply.findIndex((card) => card === cardId);
+  if (index >= 0) {
+    g[team].supply.splice(index, 1);
+    g[team].discard.push(cardId);
+  } else {
+    console.error(`Could not find card "${cardId}" in hand`);
+  }
+};
+
+export const killCard = (g: GameState, team: Team, cardId: CardId) => {
+  let found = false;
+  let index = -1;
+
+  if (!found) {
+    index = g[team].hand.findIndex((card) => card === cardId);
+    if (index >= 0) {
+      found = true;
+      g[team].hand.splice(index, 1);
+    }
+  }
+
+  if (!found) {
+    index = g[team].played.findIndex((card) => card === cardId);
+    if (index >= 0) {
+      g[team].played.splice(index, 1);
+      found = true;
+    }
+  }
+
+  if (!found) {
+    index = g[team].discard.findIndex((card) => card === cardId);
+    if (index >= 0) {
+      g[team].discard.splice(index, 1);
+      found = true;
+    }
+  }
+
+  if (!found) {
+    index = g[team].deck.findIndex((card) => card === cardId);
+    if (index >= 0) {
+      g[team].deck.splice(index, 1);
+      found = true;
+    }
+  }
+
+  if (!found) {
+    console.error(`Could not kill card "${cardId}"`);
+  } else {
+    g[team].dead.push(cardId);
   }
 };
 

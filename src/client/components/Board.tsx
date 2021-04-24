@@ -1,108 +1,156 @@
 import { useState } from "react";
 import { BoardProps } from "boardgame.io/react";
-// import cardMap from "shared/cardMap";
-// import cardTypes from "shared/cardTypes";
 import { playerIdToTeam, teamToString } from "shared/utils";
-import { Stage, GameState, Team, CardId } from "shared/types";
+import {
+  Stage,
+  GameState,
+  Team,
+  CardId,
+  TileId,
+  MarkerId,
+  PlayerId,
+  CardActionType,
+} from "shared/types";
 
 import Cards from "./Cards";
-import Marker from "./Marker";
-import Actions from "./Actions";
+import Tiles from "./Tiles";
+import Actions from "./PickAction";
+import PerformAction from "./PerformAction";
 
-const Board = ({ G, ctx, moves, playerID }: BoardProps<GameState>) => {
+const Board = ({ G: g, ctx, moves, playerID }: BoardProps<GameState>) => {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
+  const [selectedAction, setSelectedAction] = useState<CardActionType | null>(
+    null
+  );
+  const [selectedTiles, setSelectedTiles] = useState<Array<TileId>>([]);
+  const [selectedMarker, setSelectedMarker] = useState<MarkerId | null>(null);
 
   if (!playerID) {
     return null;
   }
+  const playerId = playerID as PlayerId;
 
   const team: Team = playerIdToTeam(playerID);
   let stage: Stage = (ctx.activePlayers?.[playerID] as Stage) ?? null;
 
-  const onSelect = (cardId: CardId) => {
+  const onSelectCard = (cardId: CardId) => {
     setSelectedCard(selectedCard === cardId ? null : cardId);
   };
 
-  const onClickMarker = (markerId: string) => {
-    console.log("marker clicked ", markerId);
+  const onClickMarker = (markerId: MarkerId) => {
+    if (selectedMarker === markerId) {
+      setSelectedMarker(null);
+    } else {
+      setSelectedMarker(markerId);
+    }
   };
 
-  if (!stage) {
-    <div>waiting for other player</div>;
-  }
+  const onClickTile = (tileId: TileId) => {
+    if (selectedTiles.find((tile) => tile === tileId)) {
+      setSelectedTiles(selectedTiles.filter((tile) => tile !== tileId));
+    } else {
+      setSelectedTiles([...selectedTiles, tileId]);
+    }
+    console.log("tile Clicked", tileId);
+  };
 
-  let winner = null;
-  if (ctx.gameover) {
-    winner =
-      ctx.gameover.winner !== undefined ? (
-        <div id="winner">Winner: {ctx.gameover.winner}</div>
-      ) : (
-        <div id="winner">Draw!</div>
-      );
-  }
+  const onConfirmAction = () => {
+    if (!selectedAction) {
+      return;
+    }
+    moves[selectedAction](selectedCard);
+    setSelectedCard(null);
+    setSelectedAction(null);
+  };
 
-  const { deck, hand, played, supply, discard, dead } = G[team];
+  const onCancelAction = () => {
+    setSelectedAction(null);
+  };
+
+  const { deck, hand, played, supply, discard, dead } = g[team];
 
   return (
-    <div>
+    <div className="board">
       <h1 className="title">
         {teamToString(playerIdToTeam(playerID))}, Stage: {stage}
       </h1>
-      <div>Initiative: {teamToString(playerIdToTeam(G.initiative))}</div>
-      {G.markers.map((marker) => (
-        <Marker
-          key={marker.id}
-          marker={marker}
-          onClick={() => onClickMarker(marker.id)}
-        />
-      ))}
+      <div>Initiative: {teamToString(playerIdToTeam(g.initiative))}</div>
+
+      <Tiles
+        markers={g.markers}
+        board={g.board}
+        tiles={g.tiles}
+        onClickMarker={onClickMarker}
+        onClickTile={onClickTile}
+        selectedTiles={selectedTiles}
+        selectedMarker={selectedMarker}
+      />
       <Cards
         title="Deck"
         cards={deck}
-        onSelect={onSelect}
+        onSelect={onSelectCard}
         selectedCard={selectedCard}
       />
       <Cards
         title="Supply"
         cards={supply}
-        onSelect={onSelect}
+        onSelect={onSelectCard}
         selectedCard={selectedCard}
       />
       <Cards
         title="Hand"
         cards={hand}
-        onSelect={onSelect}
+        onSelect={onSelectCard}
         defaultShow
         selectedCard={selectedCard}
       />
       <Cards
         title="Played"
         cards={played}
-        onSelect={onSelect}
+        onSelect={onSelectCard}
         defaultShow
         selectedCard={selectedCard}
       />
       <Cards
         title="Discard"
         cards={discard}
-        onSelect={onSelect}
+        onSelect={onSelectCard}
         selectedCard={selectedCard}
       />
       <Cards
         title="Dead"
         cards={dead}
-        onSelect={onSelect}
+        onSelect={onSelectCard}
         selectedCard={selectedCard}
       />
       <br />
-      <br />
-      <Actions
-        stage={stage}
-        setSelectedCard={setSelectedCard}
-        selectedCard={selectedCard}
-        moves={moves}
-      />
-      {winner}
+      {!selectedAction && (
+        <Actions
+          stage={stage}
+          selectedCard={selectedCard}
+          setSelectedCard={setSelectedCard}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+          moves={moves}
+          g={g}
+          ctx={ctx}
+          playerId={playerId}
+        />
+      )}
+      {stage === "order" && (
+        <PerformAction
+          selectedAction={selectedAction}
+          setSelectedCard={setSelectedCard}
+          selectedCard={selectedCard}
+          setSelectedAction={setSelectedAction}
+          selectedMarker={selectedMarker}
+          selectedTiles={selectedTiles}
+          moves={moves}
+          g={g}
+          ctx={ctx}
+          playerId={playerId}
+        />
+      )}
     </div>
   );
 };

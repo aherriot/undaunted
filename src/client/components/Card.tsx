@@ -12,7 +12,6 @@ interface Props {
 
 const Card = ({ card, onSelect, selected }: Props) => {
   const typeInfo = cardTypes[card.type];
-  console.log(typeInfo);
   return (
     <div
       className={classnames([

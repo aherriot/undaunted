@@ -86,13 +86,14 @@ export type Tile = {
   id: TileId;
   defense: number;
   scouted: {
-    american: boolean;
-    german: boolean;
+    [Team.American]: boolean;
+    [Team.German]: boolean;
   };
+  markers: Array<MarkerId>;
+  flag?: Flag;
 };
 
 export type Flag = {
-  tile: TileId;
   amount: number;
   control: Team | null;
 };
@@ -123,7 +124,14 @@ export type MarkerId =
 
 export type Marker = {
   id: MarkerId;
-  tile: TileId | null;
+  suppressed: boolean;
+  tileId: TileId;
+};
+
+export type MarkerInfo = {
+  type: CardType;
+  squad?: Squad;
+  team: Team;
 };
 
 export type PlayerState = {
@@ -140,8 +148,7 @@ export type GameState = {
   initiative: Team;
   [Team.American]: PlayerState;
   [Team.German]: PlayerState;
-  markers: Array<Marker>;
-  flags: Array<Flag>;
+  markers: Partial<Record<MarkerId, Marker>>;
   board: Array<Array<TileId>>;
   tiles: Partial<Record<TileId, Tile>>;
 };
